@@ -59,10 +59,12 @@ public class Book {
     @Column
     private BookCondition bookCondition;
 
+    @Column
+    private Boolean isDeleted;
+
     @CreationTimestamp
     private Instant createdOn;
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
-
 }
