@@ -5,17 +5,24 @@ import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mb.projects.book_market.Enums.BookCondition;
 import mb.projects.book_market.Enums.BookGenre;
+import mb.projects.book_market.User.User;
 
 @Data
 @AllArgsConstructor
@@ -28,12 +35,11 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @ManyToOne
-    // @JoinColumn(name = "user_id", nullable = false)
-    // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    // @JsonIdentityReference(alwaysAsId = true) // references the relationship with the user id, instead of the whole
-    //                                           // object
-    // private Long User;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true) // references the relationship with the user id, instead of the whole object
+    private User user;
 
     @Column
     private String title;
