@@ -6,23 +6,28 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import mb.projects.book_market.User.User;
+import mb.projects.book_market.User.UserRepository;
+
 @Service
 public class BookServices {
 
-    private BookRepository repo;
+    private BookRepository bookRepo;
+    private UserRepository userRepo;
     private ModelMapper mapper;
 
-    public BookServices(BookRepository repo, ModelMapper mapper) {
-        this.repo = repo;
+    public BookServices(BookRepository bookRepo,UserRepository userRepo, ModelMapper mapper) {
+        this.bookRepo = bookRepo;
+        this.userRepo = userRepo;
         this.mapper = mapper;
     }
 
     public List<Book> getAllBooks() {
-        return this.repo.findAll();
+        return this.bookRepo.findAll();
     }
 
     public Book getBookById(Long id) {
-        Optional<Book> found = this.repo.findById(id);
+        Optional<Book> found = this.bookRepo.findById(id);
         if (found.isEmpty()) {
             return null;
         }
@@ -31,20 +36,24 @@ public class BookServices {
         return result;
     }
 
-    public Book createBook(BookDTO data) {
+    public Book createBook(BookDTO data) throws Exception {
         Book newBook = mapper.map(data, Book.class);
-        repo.save(newBook);
+        User owner = userRepo.findById(data.getUser_id()).orElseThrow(() -> new Exception("No User"));
+        System.out.println("owner id: " + owner.getId());
+        newBook.setUser(owner);
+        bookRepo.save(newBook);
         return newBook;
     }
 
+
     public Book updateBook(Long id, UpdateBookDTO data) {
-        Optional<Book> found = this.repo.findById(id);
+        Optional<Book> found = this.bookRepo.findById(id);
         if (found.isEmpty()) {
             return null;
         }
         Book result = found.get();
         mapper.map(data, result);
-        repo.save(result);
+        bookRepo.save(result);
         return result;
     }
 
