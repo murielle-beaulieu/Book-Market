@@ -36,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public ResponseEntity<Book> createBook(@RequestBody BookDTO data) {
+    public ResponseEntity<Book> createBook(@RequestBody BookDTO data) throws Exception {
         Book newBook = this.bookServices.createBook(data);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }

@@ -66,7 +66,10 @@ public class Book {
     private BookCondition bookCondition;
 
     @Column
-    private Boolean isDeleted;
+    private Boolean isDeleted = Boolean.FALSE;
+
+    @Column
+    private Boolean isTraded = Boolean.FALSE;
 
     @CreationTimestamp
     private Instant createdOn;
