@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Enums.UserRole;
 
@@ -48,6 +51,7 @@ public class User {
     @Column
     private UserRole userRole;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user")
     private List<Book> books;
 
