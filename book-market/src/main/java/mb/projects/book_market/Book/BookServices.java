@@ -61,15 +61,16 @@ public class BookServices {
         newBook.setUser(userReceivingBook);
 
         System.out.println("the new book owner: " + newBook.getUser().getId());
-
-        bookRepo.save(newBook);
+        
         // We mark the book copied as having been traded
-        bookTraded.setIsTraded(Boolean.TRUE);
-
+        bookTraded.setOfferedInTrade((Boolean.TRUE));
+        
+        // We mark the new book that it's been received from a trade
+        newBook.setReceivedFromTrade((Boolean.TRUE));
+        
         // We save both the new instance and copied instance
+        bookRepo.save(newBook);
         bookRepo.save(bookTraded);
-
-        System.out.println("trade user offering")
     }
 
     public Book updateBook(Long id, UpdateBookDTO data) {

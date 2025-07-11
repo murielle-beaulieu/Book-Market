@@ -45,23 +45,22 @@ public class TradeServices {
     }
 
     public Trade createTrade(TradeDTO tradeData) throws Exception {
-        User userOffering = userRepo.findById(tradeData.getUserOffering_id()).orElseThrow(() -> new Exception("No User"));
-        User userReceiving = userRepo.findById(tradeData.getUserOffering_id()).orElseThrow(() -> new Exception("No User"));
-        Book bookOffered = bookRepo.findById(tradeData.getUserOffering_id()).orElseThrow(() -> new Exception("No Book"));
-        Book bookReceived= bookRepo.findById(tradeData.getUserOffering_id()).orElseThrow(() -> new Exception("No Book"));
+        User userOffering = userRepo.findById(tradeData.getUserOffering_id()).get();
+        User userReceiving = userRepo.findById(tradeData.getUserReceiving_id()).get();
+        Book bookOffered = bookRepo.findById(tradeData.getBookOffered_id()).get();
+        Book bookReceived= bookRepo.findById(tradeData.getBookRequested_id()).get();
 
         Trade newTrade = mapper.map(tradeData, Trade.class);
-
-        // System.out.println("All data: userOffering: " + userOffering + " userReceiving: " + userReceiving + " bookOffered: " + bookOffered + " bookReceived: " + bookReceived);
 
         newTrade.setBookOffered(bookOffered);
         newTrade.setBookRequested(bookReceived);
         newTrade.setUserOffering(userOffering);
         newTrade.setUserReceiving(userReceiving);
 
+        // System.out.println("All data: userOffering: " + userOffering.getId() + " userReceiving: " + userReceiving.getId() + " bookOffered: " + bookOffered.getId() + " bookReceived: " + bookReceived.getId());
+        
         tradeRepo.save(newTrade);
         return newTrade;
-
     }
 
     public Trade updateTrade(Long id, UpdateTradeDTO tradeData) {
@@ -93,12 +92,17 @@ public class TradeServices {
         trade.setTradeStatus(TradeStatus.ACCEPTED);
 
         // - User offering "gives" a book (this is the book we mark as traded)
+
+        // Here the swap happens: userReceiving gets the bookOffered
+        // and userOffering gets the bookRequested
         bookServices.tradeBook(trade.getBookOffered(), userReceiving.getId());
+        bookServices.tradeBook(trade.getBookRequested(), userOffering.getId());
         tradeRepo.save(trade);
         return trade;
+
         // - User receiving the offer also "gives" a book (we also mark as traded)
 
-        // - Each user"gains" a new book (we copy to the user inventory) ?
+        // - Each user "gains" a new book (we copy to the user inventory) ?
     }
 
 }

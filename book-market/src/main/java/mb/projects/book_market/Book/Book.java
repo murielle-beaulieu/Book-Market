@@ -69,7 +69,10 @@ public class Book {
     private Boolean isDeleted = Boolean.FALSE;
 
     @Column
-    private Boolean isTraded = Boolean.FALSE;
+    private Boolean offeredInTrade = Boolean.FALSE;
+
+    @Column
+    private Boolean receivedFromTrade = Boolean.FALSE;
 
     @CreationTimestamp
     private Instant createdOn;
