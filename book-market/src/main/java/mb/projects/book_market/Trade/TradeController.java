@@ -11,51 +11,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/trades")
 public class TradeController {
 
-    private final TradeServices services;
+    private final TradeService service;
 
-    public TradeController(TradeServices services) {
-        this.services = services;
+    public TradeController(TradeService service) {
+        this.service = service;
     }
 
     @GetMapping()
     public ResponseEntity<List<Trade>> getAllTrades() {
-        List<Trade> allTrades = services.getAllTrades();
+        List<Trade> allTrades = service.getAllTrades();
         return new ResponseEntity<>(allTrades, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Trade> getTradeById(@PathVariable Long id) {
-        Trade result = services.getTradeById(id);
+        Trade result = service.getTradeById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Trade> createTrade(@RequestBody TradeDTO tradeData) throws Exception {
-        Trade newTrade = services.createTrade(tradeData);
+        Trade newTrade = service.createTrade(tradeData);
         return new ResponseEntity<>(newTrade, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Trade> updateTrade(@PathVariable Long id, @RequestBody UpdateTradeDTO tradeData) {
-        Trade updatedTrade = services.updateTrade(id, tradeData);
+        Trade updatedTrade = service.updateTrade(id, tradeData);
         return new ResponseEntity<>(updatedTrade, HttpStatus.OK);
     }
     
     @PatchMapping("/approve/{id}")
     public void approveTrade(@PathVariable Long id) {
-        services.approveTrade(id);
+        service.approveTrade(id);
     }
 
     @DeleteMapping("/{id}")
     public HttpStatus cancelTrade(@PathVariable Long id) {
-        services.cancelTrade(id);
+        service.cancelTrade(id);
         return HttpStatus.OK;
     }
 

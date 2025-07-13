@@ -21,7 +21,7 @@ public class UserDTO {
 
     private String password;
 
-    private String username;
+    private String displayUsername;
 
     private UserRole userRole;
 

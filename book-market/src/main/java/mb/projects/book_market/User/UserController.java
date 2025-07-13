@@ -17,39 +17,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-    UserServices userServices;
+    UserService userService;
     
-    public UserController(UserServices userServices) {
-        this.userServices = userServices;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
     public ResponseEntity<List<User>> getAllUsers(){
-        List<User> allUsers = userServices.getAllUsers();
+        List<User> allUsers = userService.getAllUsers();
         return new ResponseEntity<>(allUsers, HttpStatus.OK);      
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userServices.getUserById(id);
+        User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK); 
     }
 
     @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody UserDTO UserDTO) {
-        User newUser = userServices.createUser(UserDTO);
+        User newUser = userService.createUser(UserDTO);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UpdateUserDTO updateUserDTO) {
-        User updatedUser = userServices.updateUser(id, updateUserDTO);
+        User updatedUser = userService.updateUser(id, updateUserDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
-        return userServices.deleteUser(id);
+        return userService.deleteUser(id);
     }
 
 }
