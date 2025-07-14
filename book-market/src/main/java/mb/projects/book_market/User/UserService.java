@@ -7,12 +7,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServices {
+public class UserService {
 
     UserRepository repo;
     ModelMapper mapper;
-    
-    public UserServices(UserRepository repo, ModelMapper mapper) {
+
+    public UserService(UserRepository repo, ModelMapper mapper) {
         this.repo = repo;
         this.mapper = mapper;
     }
@@ -31,10 +31,19 @@ public class UserServices {
         return result;
     }
 
+    public User getByEmail(String email) {
+        Optional<User> result = this.repo.findByEmail(email);
+        if (result.isEmpty()) {
+            return null;
+        }
+        User found = result.get();
+        return found;
+    }
+
     public User createUser(UserDTO userDTO) {
         User newUser = mapper.map(userDTO, User.class);
         repo.save(newUser);
-        return newUser;        
+        return newUser;
     }
 
     public User updateUser(Long id, UpdateUserDTO updateUserDTO) {
@@ -58,5 +67,5 @@ public class UserServices {
         result.setIsDeleted(true);
         return "Successfully deleted User with ID: " + id;
     }
-    
+
 }

@@ -1,15 +1,18 @@
 package mb.projects.book_market.User;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+// import jakarta.persistence.EnumType;
+// import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,14 +23,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import mb.projects.book_market.Book.Book;
-import mb.projects.book_market.Enums.UserRole;
+// import mb.projects.book_market.Enums.UserRole;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="users")
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,12 +49,12 @@ public class User {
     private String password;
 
     @Column
-    private String username;
+    private String displayUsername;
 
-    @Column
-    private UserRole userRole;
+    // @Enumerated(EnumType.STRING)
+    // private UserRole userRole;
 
-    @ToString.Exclude
+    @ToString.Exclude // to avoid circular referencing
     @OneToMany(mappedBy = "user")
     private List<Book> books;
 
@@ -63,5 +66,47 @@ public class User {
 
     @UpdateTimestamp
     private Instant lastUpdatedOn;
+
+    public User(String firstName, String lastName, String email, String password, String username,
+             Boolean isDeleted) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        // this.userRole = userRole;
+        this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+        // return List.of(new SimpleGrantedAuthority(this.userRole.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        // Return the field you're using as username (probably email)
+        return this.email; // or return this.username if you have a separate username field
+    }
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 }

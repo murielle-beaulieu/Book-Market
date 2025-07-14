@@ -8,26 +8,26 @@ import org.springframework.stereotype.Service;
 
 import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Book.BookRepository;
-import mb.projects.book_market.Book.BookServices;
+import mb.projects.book_market.Book.BookService;
 import mb.projects.book_market.Enums.TradeStatus;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
 @Service
-public class TradeServices {
+public class TradeService {
 
     private final TradeRepository tradeRepo;
     private final UserRepository userRepo;
     private final BookRepository bookRepo;
-    private final BookServices bookServices;
+    private final BookService bookService;
     private final ModelMapper mapper;
 
-    public TradeServices(TradeRepository tradeRepo, UserRepository userRepo, BookRepository bookRepo,
-            ModelMapper mapper, BookServices bookServices) {
+    public TradeService(TradeRepository tradeRepo, UserRepository userRepo, BookRepository bookRepo,
+            ModelMapper mapper, BookService bookService) {
         this.tradeRepo = tradeRepo;
         this.userRepo = userRepo;
         this.bookRepo = bookRepo;
-        this.bookServices = bookServices;
+        this.bookService = bookService;
         this.mapper = mapper;
     }
 
@@ -95,8 +95,8 @@ public class TradeServices {
 
         // Here the swap happens: userReceiving gets the bookOffered
         // and userOffering gets the bookRequested
-        bookServices.tradeBook(trade.getBookOffered(), userReceiving.getId());
-        bookServices.tradeBook(trade.getBookRequested(), userOffering.getId());
+        bookService.tradeBook(trade.getBookOffered(), userReceiving.getId());
+        bookService.tradeBook(trade.getBookRequested(), userOffering.getId());
         tradeRepo.save(trade);
         return trade;
 
