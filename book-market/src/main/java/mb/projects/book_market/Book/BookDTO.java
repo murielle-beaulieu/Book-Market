@@ -1,5 +1,7 @@
 package mb.projects.book_market.Book;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +18,7 @@ public class BookDTO {
 
     private String synopsis;
 
-    private BookGenre bookGenre;
+    private List<String> bookGenre;
 
     private String author;
 

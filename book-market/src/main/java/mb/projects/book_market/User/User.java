@@ -54,8 +54,7 @@ public class User implements UserDetails {
     @Column
     private String displayUsername;
 
-    // @Enumerated(EnumType.STRING)
-    @Column
+    @Enumerated(EnumType.ORDINAL)
     private UserRole userRole;
 
     @ToString.Exclude // to avoid circular referencing

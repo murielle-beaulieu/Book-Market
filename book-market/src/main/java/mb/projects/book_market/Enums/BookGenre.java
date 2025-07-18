@@ -25,12 +25,15 @@ public enum BookGenre {
     COOKING("Cooking"),
     RELIGION_SPIRITUALITY("Religion & Spirituality"),
     PHILOSOPHY("Philosophy"),
+    SOCIOLOGY("Sociology"),
+    FEMINISM("Feminism"),
     POETRY("Poetry"),
     DRAMA("Drama"),
     CRIME("Crime"),
     ADVENTURE("Adventure"),
     CONTEMPORARY("Contemporary"),
-    CLASSIC("Classic");
+    CLASSIC("Classic"), 
+    GOTHIC("Gothic");
 
     private final String displayName;
 
