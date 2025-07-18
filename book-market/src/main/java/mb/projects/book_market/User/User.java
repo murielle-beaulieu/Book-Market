@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 // import jakarta.persistence.EnumType;
 // import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import mb.projects.book_market.Book.Book;
 // import mb.projects.book_market.Enums.UserRole;
+import mb.projects.book_market.Enums.UserRole;
 
 @Data
 @Entity
@@ -51,8 +54,8 @@ public class User implements UserDetails {
     @Column
     private String displayUsername;
 
-    // @Enumerated(EnumType.STRING)
-    // private UserRole userRole;
+    @Enumerated(EnumType.ORDINAL)
+    private UserRole userRole;
 
     @ToString.Exclude // to avoid circular referencing
     @OneToMany(mappedBy = "user")
@@ -67,14 +70,20 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    public User(String firstName, String lastName, String email, String password, String username,
-             Boolean isDeleted) {
+    // minimum constructor
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        // this.userRole = userRole;
-        this.isDeleted = isDeleted;
+    }
+
+    public User(String firstName, String lastName, String email, String password, String displayUsername) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.displayUsername = displayUsername;
     }
 
     @Override
@@ -89,24 +98,24 @@ public class User implements UserDetails {
         return this.email; // or return this.username if you have a separate username field
     }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }

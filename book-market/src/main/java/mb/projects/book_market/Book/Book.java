@@ -1,6 +1,7 @@
 package mb.projects.book_market.Book;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,7 +11,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +35,19 @@ import mb.projects.book_market.User.User;
 @Table(name = "books")
 public class Book {
 
+    public Book(User user, String title, String synopsis, List<BookGenre> bookGenres, String author, String yearOfPublication,
+            String publisher, String imageLink, BookCondition bookCondition) {
+        this.user = user;
+        this.title = title;
+        this.synopsis = synopsis;
+        this.bookGenres = bookGenres;
+        this.author = author;
+        this.yearOfPublication = yearOfPublication;
+        this.publisher = publisher;
+        this.imageLink = imageLink;
+        this.bookCondition = bookCondition;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,20 +55,22 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true) // references the relationship with the user id, instead of the whole object
+    @JsonIdentityReference(alwaysAsId = true) // references the relationship with the user id, instead of the whole
+                                              // object
     private User user;
 
     @Column
     private String title;
 
     @Column
+    private String author;
+
+    @Column(length = 750)
     private String synopsis;
 
     @Column
-    private BookGenre bookGenre;
-
-    @Column
-    private String author;
+    @ElementCollection(targetClass = Enum.class)
+    private List<BookGenre> bookGenres;
 
     @Column
     private String yearOfPublication;
@@ -62,7 +81,7 @@ public class Book {
     @Column
     private String imageLink;
 
-    @Column
+    @Enumerated(EnumType.ORDINAL)
     private BookCondition bookCondition;
 
     @Column

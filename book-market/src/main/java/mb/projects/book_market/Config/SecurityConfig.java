@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(
                         (requests) -> requests
-                                .requestMatchers("/auth/register")
+                                .requestMatchers("/auth/register", "/books")
                                 .permitAll()
                                 .requestMatchers("/auth/login")
                                 .permitAll()

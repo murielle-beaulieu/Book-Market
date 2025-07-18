@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import mb.projects.book_market.Config.JwtService;
+import mb.projects.book_market.Enums.UserRole;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
@@ -31,8 +32,8 @@ public class AuthService {
         User user = new User(data.getFirstName(),
                 data.getLastName(),
                 data.getEmail(),
-                passwordEncoder.encode(data.getPassword()), null, false);
-
+                passwordEncoder.encode(data.getPassword()));
+        user.setUserRole(UserRole.STANDARD);
         userRepository.save(user);
         String token = jwtService.generateToken(user);
         return new AuthResponse(token);

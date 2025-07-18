@@ -21,7 +21,7 @@ import mb.projects.book_market.User.User;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    @Value("${JWT_SECRET}")
     private String secretKey;
     // private static final String SECRET_KEY = System.getenv("SECRET_KEY");
 

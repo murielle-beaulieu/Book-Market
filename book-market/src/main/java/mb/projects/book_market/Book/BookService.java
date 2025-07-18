@@ -40,6 +40,7 @@ public class BookService {
         Book newBook = mapper.map(data, Book.class);
         User owner = userRepo.findById(data.getUser_id()).orElseThrow(() -> new Exception("No User"));
         newBook.setUser(owner);
+        // newBook.setBookGenre(data.getBookGenre());
         bookRepo.save(newBook);
         return newBook;
     }
