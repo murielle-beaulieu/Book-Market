@@ -39,21 +39,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String jwtToken = authHeader.substring(7);
-
+        
         // get the user by its email (it's unique)
         String userEmail = jwtService.extractUsername(jwtToken);
-
+        
         // if email is not null and no user is already set in securityContextHolder
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+            
             // find user in db
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             System.out.println(this.jwtService.isTokenValid(jwtToken, userDetails) + " IS TOKEN VALID?");
-
+            
             // double check that the token is valid/not expired
             if (this.jwtService.isTokenValid(jwtToken, userDetails)) {
-
-               //  extract username/ password from HTTP request & prepare Authentication type object
+                
+                //  extract username/ password from HTTP request & prepare Authentication type object
                 UsernamePasswordAuthenticationToken userPassToken = new UsernamePasswordAuthenticationToken(userDetails,
                 null,
                 userDetails.getAuthorities());
