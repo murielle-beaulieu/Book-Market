@@ -15,6 +15,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import mb.projects.book_market.Enums.Role;
 import mb.projects.book_market.User.User;
 
 @Component
@@ -94,6 +95,14 @@ public class JwtService {
         Claims allClaims = this.extractAllClaims(token);
         return Long.parseLong(allClaims.getSubject());
 
+    }
+
+    public JwtUserInfo extractUserRole(String token) {
+        Claims claims = extractAllClaims(token);
+        System.out.println( claims.get("role", String.class));
+        return new JwtUserInfo(Long.parseLong(claims.getSubject()), claims.get("role", String.class));
+    }
+    private record JwtUserInfo(Long userId, String role) {
     }
 
 }

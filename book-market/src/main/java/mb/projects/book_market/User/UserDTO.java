@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mb.projects.book_market.Book.Book;
-import mb.projects.book_market.Enums.UserRole;
+import mb.projects.book_market.Enums.Role;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class UserDTO {
 
     private String displayUsername;
 
-    private UserRole userRole;
+    private Role role;
 
     private List<Book> books;
 

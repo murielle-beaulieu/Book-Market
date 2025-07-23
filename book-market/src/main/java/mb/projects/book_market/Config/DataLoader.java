@@ -10,7 +10,7 @@ import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Book.BookRepository;
 import mb.projects.book_market.Enums.BookCondition;
 import mb.projects.book_market.Enums.BookGenre;
-import mb.projects.book_market.Enums.UserRole;
+import mb.projects.book_market.Enums.Role;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
@@ -30,29 +30,29 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (userRepository.findById((long)1) == null) {
+        if (userRepository.count() < 1) {
 
             User user1 = new User("Raj", "Kumar", "rajkumar@bookmarket.com", passwordEncoder.encode("pass"), "raj444");
             user1.setIsDeleted(false);
-            user1.setUserRole(UserRole.STANDARD);
+            user1.setRole(Role.ADMIN);
             userRepository.save(user1);
 
             User user2 = new User("Ryan", "Thompson", "ryanthompson@bookmarket.com", passwordEncoder.encode("pass"),
                     "ryry_t");
             user2.setIsDeleted(false);
-            user2.setUserRole(UserRole.STANDARD);
+            user2.setRole(Role.STANDARD);
             userRepository.save(user2);
 
             User user3 = new User("Alex", "Poirier", "alexpoirier@bookmarket.com", passwordEncoder.encode("pass"),
                     "apple_poirier");
             user3.setIsDeleted(false);
-            user3.setUserRole(UserRole.STANDARD);
+            user3.setRole(Role.STANDARD);
             userRepository.save(user3);
 
             User user4 = new User("Cheah", "Davos", "cheahdavos@bookmarket.com", passwordEncoder.encode("pass"),
                     "cheah-12-d");
             user4.setIsDeleted(false);
-            user4.setUserRole(UserRole.STANDARD);
+            user4.setRole(Role.STANDARD);
             userRepository.save(user4);
 
             Book book1 = new Book(user1, "Jane Eyre",

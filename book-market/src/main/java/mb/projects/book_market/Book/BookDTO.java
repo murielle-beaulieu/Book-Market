@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mb.projects.book_market.Enums.BookCondition;
-import mb.projects.book_market.Enums.BookGenre;
 
 @Data
 @AllArgsConstructor
