@@ -22,13 +22,16 @@ public class RoleAuthorizationInterceptor implements HandlerInterceptor {
      @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+
         if (!(handler instanceof HandlerMethod handlerMethod)) {
             return true;
         }
+
         AllowedRoles allowedRoles = handlerMethod.getMethodAnnotation(AllowedRoles.class);
         if (allowedRoles == null) {
             return true;
         }
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             throw new AuthenticationException();
@@ -42,6 +45,7 @@ public class RoleAuthorizationInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
+        
         throw new AccessDeniedException("Not Authorised due to Role");
     }
 

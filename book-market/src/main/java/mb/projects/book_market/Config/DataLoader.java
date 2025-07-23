@@ -34,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
 
             User user1 = new User("Raj", "Kumar", "rajkumar@bookmarket.com", passwordEncoder.encode("pass"), "raj444");
             user1.setIsDeleted(false);
-            user1.setRole(Role.STANDARD);
+            user1.setRole(Role.ADMIN);
             userRepository.save(user1);
 
             User user2 = new User("Ryan", "Thompson", "ryanthompson@bookmarket.com", passwordEncoder.encode("pass"),

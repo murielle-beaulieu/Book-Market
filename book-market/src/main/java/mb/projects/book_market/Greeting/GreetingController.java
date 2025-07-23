@@ -6,9 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mb.projects.book_market.Enums.Role;
+import mb.projects.book_market.Role.AllowedRoles;
+
 @RestController
 @RequestMapping("/greetings")
 public class GreetingController {
+
+	private final GreetingService service;
+	
+	public GreetingController(GreetingService service) {
+		this.service = service;
+	}
 
 	@GetMapping("/private")
 	public ResponseEntity<String> sayHello() {
@@ -20,6 +29,12 @@ public class GreetingController {
 	public ResponseEntity<String> sayHelloToEveryone() {
 		return new ResponseEntity<String>("Hello from a public endpoint",
 				HttpStatus.OK);
+	}
+
+	@AllowedRoles({Role.ADMIN})
+	@GetMapping("/admin-only")
+	public String adminOnly(){
+		return service.helloAdmin();
 	}
 
 }
