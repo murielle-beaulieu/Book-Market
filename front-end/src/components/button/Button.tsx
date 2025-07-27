@@ -1,6 +1,6 @@
 import { type JSX } from "react"
 import { changeTheme, selectTheme} from "../../app/slices/themeSlice"
-import { useAppDispatch, useAppSelector,} from "../../example-app/hooks"
+import { useAppDispatch, useAppSelector,} from "../../app/hooks"
 
 export const Button = (): JSX.Element => {
   const dispatch = useAppDispatch()
