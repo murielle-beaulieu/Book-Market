@@ -15,7 +15,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import mb.projects.book_market.Enums.Role;
 import mb.projects.book_market.User.User;
 
 @Component

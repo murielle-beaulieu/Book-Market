@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import mb.projects.book_market.Config.EmailService;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
@@ -15,11 +16,13 @@ public class BookService {
     private BookRepository bookRepo;
     private UserRepository userRepo;
     private ModelMapper mapper;
+    private EmailService emailService;
 
-    public BookService(BookRepository bookRepo, UserRepository userRepo, ModelMapper mapper) {
+    public BookService(BookRepository bookRepo, UserRepository userRepo, ModelMapper mapper, EmailService emailService) {
         this.bookRepo = bookRepo;
         this.userRepo = userRepo;
         this.mapper = mapper;
+        this.emailService = emailService;
     }
 
     public List<Book> getAllBooks() {
@@ -88,6 +91,10 @@ public class BookService {
     public void deleteBook(Long id) {
         Book toDelete = getBookById(id);
         toDelete.setIsDeleted(Boolean.TRUE);
+    }
+
+    public void sendEmail() {
+        emailService.sendSimpleMessage("murielle.beaulieu19@gmail.com", "pet", "i love u");
     }
 
 }

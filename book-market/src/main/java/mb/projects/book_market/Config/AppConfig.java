@@ -1,7 +1,12 @@
 package mb.projects.book_market.Config;
 
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,8 +29,10 @@ public class AppConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
-    // DaoAuthenticationProvider is deprecated, so it has been omitted from the configuration
-    // Spring will automatically create DaoAuthenticationProvider using UserDetailsService and PasswordEncoder beans
+    // DaoAuthenticationProvider is deprecated, so it has been omitted from the
+    // configuration
+    // Spring will automatically create DaoAuthenticationProvider using
+    // UserDetailsService and PasswordEncoder beans
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -35,6 +42,14 @@ public class AppConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SimpleMailMessage templateSimpleMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(
+                "This is the test email template for your email:\n%s\n");
+        return message;
     }
 
 }
