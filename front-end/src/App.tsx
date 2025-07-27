@@ -1,7 +1,5 @@
 import "./App.css"
-import { Button } from "./example-features/button/Button"
-import { Counter } from "./example-features/counter/Counter"
-import { Quotes } from "./example-features/quotes/Quotes"
+import { Button } from "./components/button/Button"
 import logo from "./logo.svg"
 
 export const App = () => (
@@ -9,11 +7,9 @@ export const App = () => (
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <Button/>
-      <Counter />
       <p>
         Edit <code>src/App.tsx</code> and save to reload.
       </p>
-      <Quotes />
       <span>
         <span>Learn </span>
         <a
