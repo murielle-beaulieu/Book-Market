@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import mb.projects.book_market.Config.EmailService;
+import jakarta.mail.MessagingException;
+import mb.projects.book_market.EmailConfig.EmailService;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
@@ -93,8 +94,8 @@ public class BookService {
         toDelete.setIsDeleted(Boolean.TRUE);
     }
 
-    public void sendEmail() {
-        emailService.sendSimpleMessage("murielle.beaulieu19@gmail.com", "pet", "i love u");
+    public void sendEmail() throws MessagingException {
+        emailService.tradeUpdateMessage("murielle.beaulieu19@gmail.com", "declined", "Declined");
     }
 
 }
