@@ -37,12 +37,6 @@ public class BookController {
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
 
-    @GetMapping("/send-email")
-    public String sendEmail() throws MessagingException {
-        this.bookServices.sendEmail();
-        return "Yahoo";
-    }
-
     @PostMapping()
     public ResponseEntity<Book> createBook(@RequestBody BookDTO data) throws Exception {
         Book newBook = this.bookServices.createBook(data);

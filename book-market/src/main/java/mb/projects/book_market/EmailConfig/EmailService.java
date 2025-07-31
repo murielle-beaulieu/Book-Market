@@ -14,46 +14,65 @@ public class EmailService {
   @Autowired
   private JavaMailSender emailSender;
 
-  public void newTradeInitiated(String userOfferingName, String userOfferingEmail, String userReceivingName, String userReceivingEmail, String bookOfferedTitle, String bookRequestedTitle, String sendTo ) throws MessagingException {
+  public void newTradeInitiated(String userOfferingName, String userOfferingEmail, String userReceivingName,
+      String userReceivingEmail, String bookOfferedTitle, String bookRequestedTitle) throws MessagingException {
 
     MimeMessage message = emailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
     TradeTemplate tradeTemplate = new TradeTemplate();
 
-    helper.setFrom("thebookmarket.app@gmail.com");
-    if (sendTo.equals("userOffering")) {
-      helper.setTo(userOfferingEmail);
-      helper.setSubject("New Trade Offer - Confirmation");
-      helper.setText(tradeTemplate.userOfferingNewTradeEmail(userOfferingName, userReceivingName, bookOfferedTitle, bookRequestedTitle), true);
-    }
+    helper.setTo(userOfferingEmail);
+    helper.setSubject("New Trade Offer - Confirmation");
+    helper.setText(tradeTemplate.userOfferingNewTradeEmail(userOfferingName, userReceivingName, bookOfferedTitle,
+        bookRequestedTitle), true);
+    emailSender.send(message);
 
-    if (sendTo.equals("userReceiving")) {
-      helper.setTo(userReceivingEmail);
-      helper.setSubject("New Trade Offer Received!");
-      helper.setText(tradeTemplate.userReceivingNewTradeEmail(userReceivingName, userOfferingName, bookRequestedTitle, bookOfferedTitle),true);
-    }
-
+    helper.setTo(userReceivingEmail);
+    helper.setSubject("New Trade Offer Received!");
+    helper.setText(tradeTemplate.userReceivingNewTradeEmail(userReceivingName, userOfferingName, bookRequestedTitle,
+        bookOfferedTitle), true);
     emailSender.send(message);
   }
 
-  public void tradeUpdateMessage(
-      String to, String subject, String status) throws MessagingException {
+  public void tradeUpdateMessage(String userOfferingName, String userOfferingEmail, String userReceivingName,
+      String userReceivingEmail, String bookOfferedTitle, String bookRequestedTitle, String status)
+      throws MessagingException {
 
     MimeMessage message = emailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
     TradeTemplate tradeTemplate = new TradeTemplate();
 
-    String template = status.equalsIgnoreCase("Accepted") ? tradeTemplate.acceptedTradeEmail("Mu", "Jane Eyre")
-        : tradeTemplate.declinedTradeEmail("Mu", "Paddington");
+    if (status.equals("Approved")) {
 
-    helper.setFrom("thebookmarket.app@gmail.com");
-    helper.setTo(to);
-    helper.setSubject(subject);
-    helper.setText(template, true);
+    helper.setTo(userOfferingEmail);
+    helper.setSubject("Trade Offer Approved!");
+    helper.setText(tradeTemplate.userOfferingAcceptedTradeEmail(userOfferingName, userReceivingName, bookOfferedTitle,
+        bookRequestedTitle), true);
+    emailSender.send(message);
+
+    helper.setTo(userReceivingEmail);
+    helper.setSubject("You Approved a Trade!");
+    helper.setText(tradeTemplate.userReceivingAcceptedTradeEmail(userReceivingName, userOfferingName,
+        bookRequestedTitle, bookOfferedTitle), true);
     emailSender.send(message);
 
   }
+
+   if (status.equals("Declined")) {
+    helper.setTo(userOfferingEmail);
+    helper.setSubject("Trade Offer Declined");
+    helper.setText(tradeTemplate.userOfferingDeclinedTradeEmail(userOfferingName, userReceivingName, bookOfferedTitle,
+        bookRequestedTitle), true);
+    emailSender.send(message);
+
+    helper.setTo(userReceivingEmail);
+    helper.setSubject("You Declined a Trade");
+    helper.setText(tradeTemplate.userReceivingDeclinedTradeEmail(userReceivingName, userOfferingName,
+        bookRequestedTitle, bookOfferedTitle), true);
+    emailSender.send(message);
+   } 
+}
 
 }

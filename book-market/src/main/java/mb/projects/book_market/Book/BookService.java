@@ -94,8 +94,4 @@ public class BookService {
         toDelete.setIsDeleted(Boolean.TRUE);
     }
 
-    public void sendEmail() throws MessagingException {
-        emailService.tradeUpdateMessage("murielle.beaulieu19@gmail.com", "declined", "Declined");
-    }
-
 }
