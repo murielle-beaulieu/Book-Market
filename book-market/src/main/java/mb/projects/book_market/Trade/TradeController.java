@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.mail.MessagingException;
+
 
 @RestController
 @RequestMapping("/trades")
@@ -49,8 +51,13 @@ public class TradeController {
     }
     
     @PatchMapping("/approve/{id}")
-    public void approveTrade(@PathVariable Long id) {
+    public void approveTrade(@PathVariable Long id) throws MessagingException {
         service.approveTrade(id);
+    }
+
+    @PatchMapping("/decline/{id}")
+    public void declineTrade(@PathVariable Long id) throws MessagingException {
+        service.declineTrade(id);
     }
 
     @DeleteMapping("/{id}")
