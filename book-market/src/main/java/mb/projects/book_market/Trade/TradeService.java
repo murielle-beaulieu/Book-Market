@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Book.BookRepository;
 import mb.projects.book_market.Book.BookService;
+import mb.projects.book_market.EmailConfig.EmailService;
 import mb.projects.book_market.Enums.TradeStatus;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
@@ -21,14 +22,17 @@ public class TradeService {
     private final BookRepository bookRepo;
     private final BookService bookService;
     private final ModelMapper mapper;
+    private EmailService emailService;
+
 
     public TradeService(TradeRepository tradeRepo, UserRepository userRepo, BookRepository bookRepo,
-            ModelMapper mapper, BookService bookService) {
+            ModelMapper mapper, BookService bookService, EmailService emailService) {
         this.tradeRepo = tradeRepo;
         this.userRepo = userRepo;
         this.bookRepo = bookRepo;
         this.bookService = bookService;
         this.mapper = mapper;
+        this.emailService = emailService;
     }
 
     public List<Trade> getAllTrades() {
@@ -57,6 +61,9 @@ public class TradeService {
         newTrade.setUserOffering(userOffering);
         newTrade.setUserReceiving(userReceiving);
 
+        emailService.newTradeInitiated(userOffering.getFirstName(), "murielle.beaulieu19@gmail.com", userReceiving.getFirstName(), "murielle.beaulieu19@gmail.com", bookOffered.getTitle(), bookReceived.getTitle(), "userOffering");
+        emailService.newTradeInitiated(userReceiving.getFirstName(), "murielle.beaulieu19@gmail.com", userOffering.getFirstName(), "murielle.beaulieu19@gmail.com", bookReceived.getTitle(), bookOffered.getTitle(), "userReceiving");
+        
         // System.out.println("All data: userOffering: " + userOffering.getId() + " userReceiving: " + userReceiving.getId() + " bookOffered: " + bookOffered.getId() + " bookReceived: " + bookReceived.getId());
         
         tradeRepo.save(newTrade);

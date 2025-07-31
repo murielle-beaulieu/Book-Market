@@ -28,7 +28,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/auth/login")
                                 .permitAll()
-                                .requestMatchers("/greetings/public", "books/send-email")
+                                .requestMatchers("/greetings/public", "/**") // using all accepted for now
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
