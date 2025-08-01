@@ -2,6 +2,7 @@ package mb.projects.book_market.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return repo.findAll();
+    }
+
+    public List<User> getAllActiveUsers() {
+        List<User> allUsers = getAllUsers();
+        return allUsers.stream().filter(user -> user.getIsBanned().equals(Boolean.FALSE) && user.getIsDeleted().equals(Boolean.FALSE)).collect(Collectors.toList());
     }
 
     public User getUserById(Long id) {
@@ -65,7 +71,22 @@ public class UserService {
         }
         User result = found.get();
         result.setIsDeleted(true);
+        repo.save(result);
         return "Successfully deleted User with ID: " + id;
+    }
+
+    public String banUser(Long id, UserBanDTO userBanDTO) {
+       Optional<User> found = this.repo.findById(id);
+        if (found.isEmpty()) {
+            return null;
+        }
+        User result = found.get();
+        result.setIsBanned(Boolean.TRUE);
+        result.setCause(userBanDTO.getCause());
+        result.setNotesAboutBan(userBanDTO.getNotesAboutBan());
+        repo.save(result);
+
+        return "Successfully banned User with ID: " + id + "due to " + userBanDTO.getCause().getDisplayName()+" notes: " + userBanDTO.getNotesAboutBan();
     }
 
 }

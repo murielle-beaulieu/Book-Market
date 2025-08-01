@@ -1,7 +1,10 @@
 package mb.projects.book_market.Trade;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -106,7 +109,6 @@ public class TradeService {
                 userReceiving.getFirstName(), userReceiving.getEmail(),
                 bookOffered.getTitle(), bookReceived.getTitle(), "Approved");
 
-
         // Here the swap happens: userReceiving gets the bookOffered
         // and userOffering gets the bookRequested
         bookService.tradeBook(trade.getBookOffered(), userReceiving.getId());
@@ -132,6 +134,47 @@ public class TradeService {
         emailService.tradeUpdateMessage(userOffering.getFirstName(), userOffering.getEmail(),
                 userReceiving.getFirstName(), userReceiving.getEmail(),
                 bookOffered.getTitle(), bookReceived.getTitle(), "Declined");
+    }
+
+    public List<Trade> getAllTradesByUser(Long id) {
+        Optional<User> found = this.userRepo.findById(id);
+        if (found.isEmpty()) {
+            return null;
+        }
+        User result = found.get();
+        List<Trade> allTrades = getAllTrades();
+        return allTrades.stream().filter(trade ->  trade.getUserOffering().equals(result) || trade.getUserReceiving().equals(result))
+        .collect(Collectors.toList());
+    }
+
+    public List<Trade> getTradesByUserAndTradeType(Long id, String tradeType) {
+        Optional<User> found = this.userRepo.findById(id);
+        if (found.isEmpty()) {
+            return null;
+        }
+        User result = found.get();
+
+        List<Trade> allTrades = getAllTrades();
+
+        List<Trade> tradesFiltered = new ArrayList<Trade>();
+
+        if (tradeType.equalsIgnoreCase("offering")) {
+            tradesFiltered = allTrades.stream().filter(trade -> trade.getUserOffering().equals(result))
+                    .collect(Collectors.toList());
+        }
+
+        if (tradeType.equalsIgnoreCase("receiving")) {
+            tradesFiltered = allTrades.stream().filter(trade -> trade.getUserReceiving().equals(result))
+                    .collect(Collectors.toList());
+        }
+
+        return tradesFiltered;
+    }
+
+    public List<Trade> getTradesByStatus(String status) {
+        List<Trade> allTrades = getAllTrades();
+        return allTrades.stream().filter(trade -> trade.getTradeStatus().getDisplayName().equalsIgnoreCase(status))
+                .collect(Collectors.toList());
     }
 
 }
