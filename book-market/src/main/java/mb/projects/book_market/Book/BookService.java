@@ -86,9 +86,9 @@ public class BookService {
         bookRepo.save(book);
     }
 
-    public void markBookAsUnavailable(Long id) {
+    public void changeAvailability(Long id) {
        Book book = getBookById(id);
-       book.setIsAvailable(Boolean.FALSE);
+       book.setIsAvailable(!book.getIsAvailable());
        bookRepo.save(book);
     }
 
