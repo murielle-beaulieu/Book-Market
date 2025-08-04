@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.mail.MessagingException;
 import mb.projects.book_market.Enums.Role;
 import mb.projects.book_market.Role.AllowedRoles;
 

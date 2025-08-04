@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.MessagingException;
-import mb.projects.book_market.EmailConfig.EmailService;
 import mb.projects.book_market.User.User;
 import mb.projects.book_market.User.UserRepository;
 
@@ -17,13 +15,11 @@ public class BookService {
     private BookRepository bookRepo;
     private UserRepository userRepo;
     private ModelMapper mapper;
-    private EmailService emailService;
 
-    public BookService(BookRepository bookRepo, UserRepository userRepo, ModelMapper mapper, EmailService emailService) {
+    public BookService(BookRepository bookRepo, UserRepository userRepo, ModelMapper mapper) {
         this.bookRepo = bookRepo;
         this.userRepo = userRepo;
         this.mapper = mapper;
-        this.emailService = emailService;
     }
 
     public List<Book> getAllBooks() {
@@ -42,9 +38,8 @@ public class BookService {
 
     public Book createBook(BookDTO data) throws Exception {
         Book newBook = mapper.map(data, Book.class);
-        User owner = userRepo.findById(data.getUser_id()).orElseThrow(() -> new Exception("No User"));
+        User owner = userRepo.findById(data.getUser_id()).orElseThrow(() -> new Exception("No User matching id: " + data.getUser_id()));
         newBook.setUser(owner);
-        // newBook.setBookGenre(data.getBookGenre());
         bookRepo.save(newBook);
         return newBook;
     }

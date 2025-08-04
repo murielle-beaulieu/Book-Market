@@ -58,12 +58,20 @@ public class TradeService {
             throw new Exception("You cannot offer a trade to yourself");
         }
 
-        if (userReceiving.getIsBanned().equals(Boolean.TRUE)) {
+        if (userReceiving.getIsBanned()) {
             throw new Exception("You cannot offer a trade to a banned user");
+        }
+
+        if (userOffering.getIsBanned()) {
+            throw new Exception("Banned user cannot initiate a trade");
         }
 
         if (userReceiving.getIsDeleted()) {
             throw new Exception("You cannot offer a trade to a deleted user");
+        }
+
+        if (userOffering.getIsDeleted()) {
+            throw new Exception("Deleted user cannot initiate a trade");
         }
 
         Book bookOffered = bookRepo.findById(tradeData.getBookOffered_id()).get();
@@ -162,6 +170,10 @@ public class TradeService {
 
         if (trade.getTradeStatus().equals(TradeStatus.ACCEPTED)) {
             throw new Exception("This trade has previously been accepted - the trade can no longer be changed");
+        }
+
+        if (trade.getTradeStatus().equals(TradeStatus.DENIED)) {
+            throw new Exception("This trade has previously been denied - the trade can no longer be changed");
         }
 
         if (trade.getIsCancelled()) {
