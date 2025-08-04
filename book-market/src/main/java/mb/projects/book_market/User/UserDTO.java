@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Enums.Role;
+import mb.projects.book_market.Enums.UserBanCause;
 
 @Data
 @AllArgsConstructor
@@ -28,5 +29,9 @@ public class UserDTO {
     private List<Book> books;
 
     private Boolean isDeleted = Boolean.FALSE;
+
+    private Boolean isBanned = Boolean.FALSE;
+
+    private UserBanCause cause;
 
 }

@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import mb.projects.book_market.Book.Book;
 import mb.projects.book_market.Enums.Role;
+import mb.projects.book_market.Enums.UserBanCause;
 
 @Data
 @Entity
@@ -61,6 +62,15 @@ public class User implements UserDetails {
 
     @Column
     private Boolean isDeleted;
+
+    @Column
+    private Boolean isBanned;
+    
+    @Column
+    private UserBanCause cause;
+
+    @Column
+    private String notesAboutBan;
 
     @CreationTimestamp
     private Instant createdOn;

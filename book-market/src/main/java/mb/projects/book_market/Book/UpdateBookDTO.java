@@ -27,4 +27,6 @@ public class UpdateBookDTO {
 
     private BookCondition bookCondition;
 
+    private Boolean isAvailable;
+
 }

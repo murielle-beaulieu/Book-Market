@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.mail.MessagingException;
-
 @RestController
 @RequestMapping("/books")
 public class BookController {
@@ -47,6 +45,11 @@ public class BookController {
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody UpdateBookDTO data) {
         Book updatedBook = this.bookServices.updateBook(id,data);
         return new ResponseEntity<>(updatedBook, HttpStatus.OK);
+    }
+
+    @PatchMapping("/changeAvailability/{id}")
+    public void changeAvailability(@PathVariable Long id) {
+        this.bookServices.changeAvailability(id);
     }
 
     @DeleteMapping("/{id}")

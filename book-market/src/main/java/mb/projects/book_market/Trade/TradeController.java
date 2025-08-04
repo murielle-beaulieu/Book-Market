@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.mail.MessagingException;
-
+import mb.projects.book_market.Enums.Role;
+import mb.projects.book_market.Role.AllowedRoles;
 
 @RestController
 @RequestMapping("/trades")
@@ -26,16 +26,37 @@ public class TradeController {
         this.service = service;
     }
 
+    @AllowedRoles({ Role.ADMIN })
     @GetMapping()
     public ResponseEntity<List<Trade>> getAllTrades() {
         List<Trade> allTrades = service.getAllTrades();
         return new ResponseEntity<>(allTrades, HttpStatus.OK);
     }
 
+    @GetMapping("/user={id}")
+    public ResponseEntity<List<Trade>> getAllTradesByUser(@PathVariable Long id) throws Exception {
+        List<Trade> allTradesByUser = service.getAllTradesByUser(id);
+        return new ResponseEntity<>(allTradesByUser, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Trade> getTradeById(@PathVariable Long id) {
         Trade result = service.getTradeById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @AllowedRoles({ Role.ADMIN })
+    @GetMapping("/all/{status}")
+    public ResponseEntity<List<Trade>> getTradesByStatus(@PathVariable String status) {
+        List<Trade> tradesByStatus = service.getTradesByStatus(status);
+        return new ResponseEntity<>(tradesByStatus, HttpStatus.OK);
+    }
+
+    @AllowedRoles({ Role.ADMIN })
+    @GetMapping("/{tradeType}/{userId}") // filter by offering a trade or receiving a trade
+    public ResponseEntity<List<Trade>> getTradeByUserAndType(@PathVariable Long userId, @PathVariable String tradeType) throws Exception {
+        List<Trade> tradesByUser = service.getTradesByUserAndTradeType(userId, tradeType);
+        return new ResponseEntity<>(tradesByUser, HttpStatus.OK);
     }
 
     @PostMapping()
@@ -49,17 +70,18 @@ public class TradeController {
         Trade updatedTrade = service.updateTrade(id, tradeData);
         return new ResponseEntity<>(updatedTrade, HttpStatus.OK);
     }
-    
+
     @PatchMapping("/approve/{id}")
-    public void approveTrade(@PathVariable Long id) throws MessagingException {
+    public void approveTrade(@PathVariable Long id) throws Exception {
         service.approveTrade(id);
     }
 
     @PatchMapping("/decline/{id}")
-    public void declineTrade(@PathVariable Long id) throws MessagingException {
+    public void declineTrade(@PathVariable Long id) throws Exception {
         service.declineTrade(id);
     }
 
+    @AllowedRoles({ Role.ADMIN })
     @DeleteMapping("/{id}")
     public HttpStatus cancelTrade(@PathVariable Long id) {
         service.cancelTrade(id);

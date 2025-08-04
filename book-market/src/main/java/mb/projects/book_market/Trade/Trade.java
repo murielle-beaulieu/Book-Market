@@ -37,14 +37,14 @@ public class Trade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // user initiating the trade - user 1
+    // user initiating the trade - this user offer a book and request another
     @ManyToOne
     @JoinColumn(name = "userOffering_id", nullable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private User userOffering;
 
-    // user being offered a trade - user 2
+    // user being offered a trade - this other user receives the trade request, can accept or deny it
     @ManyToOne
     @JoinColumn(name = "userReceiving_id", nullable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
