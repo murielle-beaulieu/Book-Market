@@ -27,10 +27,10 @@ public class UserService {
         return allUsers.stream().filter(user -> user.getIsBanned().equals(Boolean.FALSE) && user.getIsDeleted().equals(Boolean.FALSE)).collect(Collectors.toList());
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(Long id) throws Exception {
         Optional<User> found = this.repo.findById(id);
         if (found.isEmpty()) {
-            return null;
+            throw new Exception("No user match id: " + id);
         }
         User result = found.get();
 

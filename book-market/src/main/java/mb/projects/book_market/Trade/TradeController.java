@@ -35,7 +35,7 @@ public class TradeController {
     }
 
     @GetMapping("/user={id}")
-    public ResponseEntity<List<Trade>> getAllTradesByUser(@PathVariable Long id) {
+    public ResponseEntity<List<Trade>> getAllTradesByUser(@PathVariable Long id) throws Exception {
         List<Trade> allTradesByUser = service.getAllTradesByUser(id);
         return new ResponseEntity<>(allTradesByUser, HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class TradeController {
 
     @AllowedRoles({ Role.ADMIN })
     @GetMapping("/{tradeType}/{userId}") // filter by offering a trade or receiving a trade
-    public ResponseEntity<List<Trade>> getTradeByUserAndType(@PathVariable Long userId, @PathVariable String tradeType) {
+    public ResponseEntity<List<Trade>> getTradeByUserAndType(@PathVariable Long userId, @PathVariable String tradeType) throws Exception {
         List<Trade> tradesByUser = service.getTradesByUserAndTradeType(userId, tradeType);
         return new ResponseEntity<>(tradesByUser, HttpStatus.OK);
     }
@@ -73,12 +73,12 @@ public class TradeController {
     }
 
     @PatchMapping("/approve/{id}")
-    public void approveTrade(@PathVariable Long id) throws MessagingException {
+    public void approveTrade(@PathVariable Long id) throws Exception {
         service.approveTrade(id);
     }
 
     @PatchMapping("/decline/{id}")
-    public void declineTrade(@PathVariable Long id) throws MessagingException {
+    public void declineTrade(@PathVariable Long id) throws Exception {
         service.declineTrade(id);
     }
 

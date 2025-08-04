@@ -49,6 +49,11 @@ public class BookController {
         return new ResponseEntity<>(updatedBook, HttpStatus.OK);
     }
 
+    @PatchMapping("/unavailable/{id}")
+    public void markBookAsUnavailable(@PathVariable Long id) {
+        this.bookServices.markBookAsUnavailable(id);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable Long id) {
         this.bookServices.deleteBook(id);

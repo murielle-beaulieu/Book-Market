@@ -88,6 +88,9 @@ public class Book {
     private Boolean isDeleted = Boolean.FALSE;
 
     @Column
+    private Boolean isAvailable = Boolean.TRUE;
+
+    @Column
     private Boolean offeredInTrade = Boolean.FALSE;
 
     @Column

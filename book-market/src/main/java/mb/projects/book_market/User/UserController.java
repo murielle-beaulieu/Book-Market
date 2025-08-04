@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK); 
     }

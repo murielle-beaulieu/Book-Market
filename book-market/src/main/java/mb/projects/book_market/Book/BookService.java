@@ -79,19 +79,22 @@ public class BookService {
     }
 
     public Book updateBook(Long id, UpdateBookDTO data) {
-        Optional<Book> found = this.bookRepo.findById(id);
-        if (found.isEmpty()) {
-            return null;
-        }
-        Book result = found.get();
-        mapper.map(data, result);
-        bookRepo.save(result);
-        return result;
+        Book book = getBookById(id);
+        mapper.map(data, book);
+        bookRepo.save(book);
+        return book;
     }
 
     public void deleteBook(Long id) {
-        Book toDelete = getBookById(id);
-        toDelete.setIsDeleted(Boolean.TRUE);
+        Book book = getBookById(id);
+        book.setIsDeleted(Boolean.TRUE);
+        bookRepo.save(book);
+    }
+
+    public void markBookAsUnavailable(Long id) {
+       Book book = getBookById(id);
+       book.setIsAvailable(Boolean.FALSE);
+       bookRepo.save(book);
     }
 
 }
