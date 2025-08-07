@@ -24,7 +24,7 @@ public class UserService {
 
     public List<User> getAllActiveUsers() {
         List<User> allUsers = getAllUsers();
-        return allUsers.stream().filter(user -> user.getIsBanned().equals(Boolean.FALSE) && user.getIsDeleted().equals(Boolean.FALSE)).collect(Collectors.toList());
+        return allUsers.stream().filter(user -> !user.getIsBanned() && !user.getIsDeleted()).collect(Collectors.toList());
     }
 
     public User getUserById(Long id) throws Exception {

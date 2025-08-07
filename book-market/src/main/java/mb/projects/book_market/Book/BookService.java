@@ -1,7 +1,9 @@
 package mb.projects.book_market.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,27 @@ public class BookService {
         this.mapper = mapper;
     }
 
+    public List<Book> getFilteredBooks(String filter) {
+        List<Book> all = getAllBooks();
+        List<Book> filtered = new ArrayList<>();
+        if (filter.equalsIgnoreCase("available")){
+            filtered = all.stream().filter(book -> !book.getIsDeleted() && book.getIsAvailable()).collect(Collectors.toList());
+        }
+        return filtered;
+    }
+
     public List<Book> getAllBooks() {
         return this.bookRepo.findAll();
+    }
+
+    public List<Book> getAllAvailableBooks() {
+        List<Book> all = getAllBooks();
+        return all.stream().filter(book -> !book.getIsDeleted() && book.getIsAvailable()).collect(Collectors.toList());
+    }
+
+    public List<Book> getAllUnavailableBooks() {
+        List<Book> all = getAllBooks();
+        return all.stream().filter(book -> !book.getIsDeleted() && !book.getIsAvailable()).collect(Collectors.toList());
     }
 
     public Book getBookById(Long id) {

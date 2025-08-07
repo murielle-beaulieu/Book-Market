@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import mb.projects.book_market.Enums.Role;
+import mb.projects.book_market.Role.AllowedRoles;
 
 @RestController
 @RequestMapping("/books")
@@ -23,11 +27,24 @@ public class BookController {
         this.bookServices = bookServices;
     }
 
-    @GetMapping()
+    @AllowedRoles({ Role.ADMIN })
+    @GetMapping("/all")
     public ResponseEntity<List<Book>> getAllBooks() {
-        List<Book> found = this.bookServices.getAllBooks();
-        return new ResponseEntity<>(found, HttpStatus.OK);
+        List<Book> all = this.bookServices.getAllBooks();
+        return new ResponseEntity<>(all , HttpStatus.OK);
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Book>> getAllAvailableBooks() {
+        List<Book> allAvailable = this.bookServices.getAllAvailableBooks();
+        return new ResponseEntity<>(allAvailable, HttpStatus.OK);
+    } 
+
+    @GetMapping("/unavailable")
+    public ResponseEntity<List<Book>> getAllUnavailableBooks() {
+        List<Book> unavailable = this.bookServices.getAllUnavailableBooks();
+        return new ResponseEntity<>(unavailable, HttpStatus.OK);
+    } 
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
