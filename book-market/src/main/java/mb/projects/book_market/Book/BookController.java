@@ -1,5 +1,6 @@
 package mb.projects.book_market.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -34,17 +35,14 @@ public class BookController {
         return new ResponseEntity<>(all , HttpStatus.OK);
     }
 
-    @GetMapping("/available")
-    public ResponseEntity<List<Book>> getAllAvailableBooks() {
-        List<Book> allAvailable = this.bookServices.getAllAvailableBooks();
-        return new ResponseEntity<>(allAvailable, HttpStatus.OK);
-    } 
-
-    @GetMapping("/unavailable")
-    public ResponseEntity<List<Book>> getAllUnavailableBooks() {
-        List<Book> unavailable = this.bookServices.getAllUnavailableBooks();
-        return new ResponseEntity<>(unavailable, HttpStatus.OK);
-    } 
+    @GetMapping()
+    public ResponseEntity<List<Book>> getBooksByAvailability(@RequestParam (required = false) String status) {
+        List<Book> booksByAvailability = new ArrayList<>();
+        if (!status.isBlank()) {
+            booksByAvailability  = this.bookServices.getBooksByAvailability(status);
+        }
+        return new ResponseEntity<>(booksByAvailability , HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {

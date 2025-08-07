@@ -24,12 +24,18 @@ public class BookService {
         this.mapper = mapper;
     }
 
-    public List<Book> getFilteredBooks(String filter) {
-        List<Book> all = getAllBooks();
+    public List<Book> getBooksByAvailability(String filter) {
+        
         List<Book> filtered = new ArrayList<>();
+
         if (filter.equalsIgnoreCase("available")){
-            filtered = all.stream().filter(book -> !book.getIsDeleted() && book.getIsAvailable()).collect(Collectors.toList());
+            filtered = getAllAvailableBooks();
         }
+
+        if (filter.equalsIgnoreCase("unavailable")) {
+            filtered = getAllUnavailableBooks();
+        }
+
         return filtered;
     }
 
