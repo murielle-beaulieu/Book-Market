@@ -8,13 +8,14 @@ nav {
     height: 6em;
     width: 100%;
     background-color: #faf8f6;
+    z-index: 3;
     button {
         margin-right: 1.5em;
     }
 
     p {
         color: #545454;
-        margin-left: 2em;
+        margin: auto;
         font-size: 3em;
     }
 }

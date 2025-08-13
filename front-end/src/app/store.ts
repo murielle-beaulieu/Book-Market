@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./slices/themeSlice";
+import formContainerReducer from "./slices/formContainerSlice";
 import authReducer from "./auth/authSlice";
 import { apiSlice } from "./api/apiSlice";
 
 
 export const store = configureStore({
     reducer: {
+        // theme
         theme: themeReducer,
+        // form container
+        formContainer: formContainerReducer,
         // auth
         auth: authReducer,
 

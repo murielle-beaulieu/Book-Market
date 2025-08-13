@@ -1,0 +1,13 @@
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 40em;
+    width: 25em;
+    border: solid 1px black;
+    z-index: 3;
+    background-color: wheat;
+    margin-left: 65%;
+    margin-top: 15em;
+}
