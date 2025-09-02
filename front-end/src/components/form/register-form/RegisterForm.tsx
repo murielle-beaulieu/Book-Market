@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from "react-hook-form"
 import { schema, type RegisterData } from "./register-schema"
 import styles from "./registerform.module.scss"
@@ -20,7 +21,7 @@ export const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
         <div className={styles.success}>Successfully created a new user!</div>
       )}
       <form
-        onSubmit={() => handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className={styles.register_form}
       >
         <header className={styles.register_header}>
