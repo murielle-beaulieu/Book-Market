@@ -29,8 +29,10 @@ public class AuthService {
     private final AuthenticationManager authManager;
 
     public AuthResponse register(AuthRegisterDTO data) {
-        User user = new User(data.getFirstName(),
+        User user = new User(
+                data.getFirstName(),
                 data.getLastName(),
+                data.getDisplayUsername(),
                 data.getEmail(),
                 passwordEncoder.encode(data.getPassword()));
         user.setRole(Role.STANDARD);
@@ -46,7 +48,6 @@ public class AuthService {
                 data.getPassword());
 
         authManager.authenticate(token);
-        
 
         User user = userRepository.findByEmail(data.getEmail()).orElseThrow(
                 () -> new Exception());
