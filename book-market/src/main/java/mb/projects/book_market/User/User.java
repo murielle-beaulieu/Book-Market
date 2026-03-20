@@ -65,7 +65,7 @@ public class User implements UserDetails {
 
     @Column
     private Boolean isBanned;
-    
+
     @Column
     private UserBanCause cause;
 
@@ -78,26 +78,19 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    // most basic constructor
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String displayUsername, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String firstName, String lastName, String email, String password, String displayUsername) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
         this.displayUsername = displayUsername;
+        this.email = email;
+        this.password = password;
     }
 
-     @Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
-	}
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+    }
 
     @Override
     public String getUsername() {

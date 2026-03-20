@@ -16,6 +16,10 @@ public class AuthRegisterDTO {
 	@Setter
 	private String lastName;
 
+	@Getter
+	@Setter
+	private String displayUsername;
+
 	@Email
 	@Getter
 	@Setter
@@ -30,9 +34,10 @@ public class AuthRegisterDTO {
 	public AuthRegisterDTO() {
 	}
 
-	public AuthRegisterDTO(String firstName, String lastName, String email, String password) {
+	public AuthRegisterDTO(String firstName, String lastName, String displayUsername, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.displayUsername = displayUsername;
 		this.email = email;
 		this.password = password;
 	}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./LoginForm.module.scss";
@@ -14,7 +15,7 @@ function LoginForm({ onSubmit }: LoginProps) {
 
   return (
     <>
-      <form className={styles.loginForm} onSubmit={() => handleSubmit(onSubmit)}>
+      <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
         <header className={styles.login_header}>
           <h2>Login</h2>
         </header>

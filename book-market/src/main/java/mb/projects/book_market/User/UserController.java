@@ -1,5 +1,6 @@
 package mb.projects.book_market.User;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,17 @@ public class UserController {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK); 
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+    // principal.getName() will contain the email from JWT subject
+    String email = principal.getName();
+    User user = this.userService.getByEmail(email);
+    if (user == null) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(user, HttpStatus.OK);
+}
 
     @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody UserDTO UserDTO) {
