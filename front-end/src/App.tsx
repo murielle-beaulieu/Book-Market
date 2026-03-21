@@ -1,16 +1,20 @@
-import { BrowserRouter, Route, Routes } from "react-router"
-import { Homepage } from "./app/pages/Homepage"
-import { ProfilePage } from "./app/pages/ProfilePage";
+import './App.css'
+import { Route, Routes } from 'react-router-dom'
+import Homepage from "../pages/Homepage";
+import UserProfile from "../pages/UserProfile";
+import Marketplace from "../pages/Marketplace";
 
 function App() {
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage/>}/>
-        <Route path="/profile" element={<ProfilePage/>}/>
-      </Routes>
-    </BrowserRouter>
+    <>
+    <Routes>
+      <Route path='/' element={<Homepage />} />
+      <Route path='/user' element={<UserProfile/>}/>
+      <Route path='/marketplace' element={<Marketplace/>}/>
+    </Routes>
+    </>
   )
 }
 
-export default App;
+export default App
